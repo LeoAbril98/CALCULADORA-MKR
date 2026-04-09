@@ -1,525 +1,524 @@
 <!DOCTYPE html>
-
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Cotação de Expedição</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg: #0f1117;
-    --surface: #181c27;
-    --surface2: #1f2536;
-    --border: #2a3045;
-    --accent: #3b82f6;
-    --accent2: #60a5fa;
-    --accent-glow: rgba(59,130,246,0.18);
-    --text: #e8eaf0;
-    --muted: #7a859e;
-    --danger: #ef4444;
-    --success: #22c55e;
-    --radius: 10px;
-    --mono: 'DM Mono', monospace;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    padding: 20px 14px 60px;
-    -webkit-text-size-adjust: 100%;
-  }
-  .wrap { max-width: 600px; margin: auto; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Cotação de Expedição</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f1117;
+            --surface: #181c27;
+            --surface2: #1f2536;
+            --border: #2a3045;
+            --accent: #3b82f6;
+            --accent2: #60a5fa;
+            --accent-glow: rgba(59,130,246,0.18);
+            --text: #e8eaf0;
+            --muted: #7a859e;
+            --danger: #ef4444;
+            --success: #22c55e;
+            --radius: 10px;
+            --mono: 'DM Mono', monospace;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 20px 14px 60px;
+            -webkit-text-size-adjust: 100%;
+        }
+        .wrap { max-width: 600px; margin: auto; }
 
-header { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; }
-.logo {
-width: 40px; height: 40px; border-radius: 10px; flex-shrink: 0;
-background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-display: flex; align-items: center; justify-content: center;
-font-size: 20px; box-shadow: 0 0 20px rgba(59,130,246,0.4);
-}
-header h1 { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.02em; }
-header p  { font-size: 0.75rem; color: var(–muted); margin-top: 2px; }
+        header { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; }
+        .logo {
+            width: 40px; height: 40px; border-radius: 10px; flex-shrink: 0;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px; box-shadow: 0 0 20px rgba(59,130,246,0.4);
+        }
+        header h1 { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.02em; }
+        header p  { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
 
-.card {
-background: var(–surface); border: 1px solid var(–border);
-border-radius: 14px; padding: 16px; margin-bottom: 12px;
-}
-.card-title {
-font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em;
-text-transform: uppercase; color: var(–muted);
-margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
-}
-.card-title::after { content:’’; flex:1; height:1px; background:var(–border); }
+        .card {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 14px; padding: 16px; margin-bottom: 12px;
+        }
+        .card-title {
+            font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em;
+            text-transform: uppercase; color: var(--muted);
+            margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
+        }
+        .card-title::after { content:''; flex:1; height:1px; background:var(--border); }
 
-/* Tabs */
-.tabs { display: flex; gap: 5px; margin-bottom: 14px; }
-.tab {
-flex: 1; padding: 9px 4px; text-align: center; border-radius: 8px;
-border: 1px solid var(–border); background: var(–surface2);
-color: var(–muted); font-size: 0.78rem; font-weight: 600;
-cursor: pointer; transition: all 0.15s; user-select: none;
-}
-.tab.active {
-background: var(–accent); border-color: var(–accent); color: #fff;
-box-shadow: 0 0 14px var(–accent-glow);
-}
+        .tabs { display: flex; gap: 5px; margin-bottom: 14px; }
+        .tab {
+            flex: 1; padding: 9px 4px; text-align: center; border-radius: 8px;
+            border: 1px solid var(--border); background: var(--surface2);
+            color: var(--muted); font-size: 0.78rem; font-weight: 600;
+            cursor: pointer; transition: all 0.15s; user-select: none;
+        }
+        .tab.active {
+            background: var(--accent); border-color: var(--accent); color: #fff;
+            box-shadow: 0 0 14px var(--accent-glow);
+        }
 
-/* Fields */
-.field { margin-bottom: 12px; }
-label { font-size: 0.72rem; font-weight: 600; color: var(–muted); display: block; margin-bottom: 5px; letter-spacing: 0.03em; }
+        .field { margin-bottom: 12px; }
+        label { font-size: 0.72rem; font-weight: 600; color: var(--muted); display: block; margin-bottom: 5px; letter-spacing: 0.03em; }
 
-input[type=“text”], input[type=“number”], select {
-width: 100%; background: var(–surface2); border: 1px solid var(–border);
-border-radius: var(–radius); padding: 11px 13px;
-color: var(–text); font-family: ‘DM Sans’, sans-serif; font-size: 16px; /* 16px prevents iOS zoom */
-transition: border-color 0.15s, box-shadow 0.15s; -webkit-appearance: none;
-}
-input:focus, select:focus { outline: none; border-color: var(–accent); box-shadow: 0 0 0 3px var(–accent-glow); }
+        input[type="text"], input[type="number"], select {
+            width: 100%; background: var(--surface2); border: 1px solid var(--border);
+            border-radius: var(--radius); padding: 11px 13px;
+            color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 16px;
+            transition: border-color 0.15s, box-shadow 0.15s; -webkit-appearance: none;
+        }
+        input:focus, select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
 
-.search-wrap { position: relative; }
-.search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(–muted); pointer-events: none; }
-.search-wrap input { padding-left: 38px; }
+        .search-wrap { position: relative; }
+        .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--muted); pointer-events: none; }
+        .search-wrap input { padding-left: 38px; }
 
-select[size] { height: 140px; padding: 5px; font-size: 15px; }
-select[size] option { padding: 7px 9px; border-radius: 6px; font-size: 0.85rem; cursor: pointer; }
-select[size] option:checked { background: var(–accent); color: #fff; }
+        select[size] { height: 140px; padding: 5px; font-size: 15px; }
+        select[size] option { padding: 7px 9px; border-radius: 6px; font-size: 0.85rem; cursor: pointer; }
+        select[size] option:checked { background: var(--accent); color: #fff; }
 
-.row2 { display: grid; grid-template-columns: 100px 1fr; gap: 10px; }
+        .row2 { display: grid; grid-template-columns: 100px 1fr; gap: 10px; }
 
-.info-box {
-background: var(–surface2); border: 1px solid var(–border);
-border-radius: var(–radius); padding: 11px 12px;
-font-family: var(–mono); font-size: 0.75rem; color: var(–muted);
-min-height: 44px; display: flex; align-items: center; line-height: 1.5;
-}
+        .info-box {
+            background: var(--surface2); border: 1px solid var(--border);
+            border-radius: var(--radius); padding: 11px 12px;
+            font-family: var(--mono); font-size: 0.75rem; color: var(--muted);
+            min-height: 44px; display: flex; align-items: center; line-height: 1.5;
+        }
 
-/* Toggle */
-.toggle-row {
-display: flex; align-items: center; justify-content: space-between;
-background: var(–surface2); border: 1px solid var(–border);
-border-radius: var(–radius); padding: 12px 13px; margin-bottom: 12px;
-}
-.toggle-label { font-size: 0.88rem; font-weight: 500; }
-.toggle-sub   { font-size: 0.72rem; color: var(–muted); margin-top: 2px; }
-.toggle { position: relative; width: 44px; height: 24px; flex-shrink: 0; }
-.toggle input { opacity: 0; width: 0; height: 0; }
-.slider {
-position: absolute; inset: 0; background: var(–border);
-border-radius: 24px; cursor: pointer; transition: background 0.2s;
-}
-.slider::before {
-content:’’; position:absolute; width:18px; height:18px;
-left:3px; top:3px; background:#fff; border-radius:50%; transition:transform 0.2s;
-}
-.toggle input:checked + .slider { background: var(–accent); }
-.toggle input:checked + .slider::before { transform: translateX(20px); }
+        .toggle-row {
+            display: flex; align-items: center; justify-content: space-between;
+            background: var(--surface2); border: 1px solid var(--border);
+            border-radius: var(--radius); padding: 12px 13px; margin-bottom: 12px;
+        }
+        .toggle-label { font-size: 0.88rem; font-weight: 500; }
+        .toggle-sub { font-size: 0.72rem; color: var(--muted); margin-top: 2px; }
+        .toggle { position: relative; width: 44px; height: 24px; flex-shrink: 0; }
+        .toggle input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute; inset: 0; background: var(--border);
+            border-radius: 24px; cursor: pointer; transition: background 0.2s;
+        }
+        .slider::before {
+            content:''; position:absolute; width:18px; height:18px;
+            left:3px; top:3px; background:#fff; border-radius:50%; transition:transform 0.2s;
+        }
+        .toggle input:checked + .slider { background: var(--accent); }
+        .toggle input:checked + .slider::before { transform: translateX(20px); }
 
-/* Add button */
-.btn-add {
-width: 100%; padding: 14px; border-radius: var(–radius); border: none;
-background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-color: #fff; font-family: ‘DM Sans’, sans-serif; font-size: 1rem;
-font-weight: 700; cursor: pointer;
-transition: opacity 0.15s, transform 0.1s, box-shadow 0.15s;
-box-shadow: 0 4px 18px rgba(59,130,246,0.3);
-}
-.btn-add:active { transform: scale(0.97); }
+        .btn-add {
+            width: 100%; padding: 14px; border-radius: var(--radius); border: none;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: #fff; font-family: 'DM Sans', sans-serif; font-size: 1rem;
+            font-weight: 700; cursor: pointer;
+            transition: opacity 0.15s, transform 0.1s, box-shadow 0.15s;
+            box-shadow: 0 4px 18px rgba(59,130,246,0.3);
+        }
+        .btn-add:active { transform: scale(0.97); }
 
-/* Item cards — mobile-first, no table */
-.items-empty {
-text-align: center; color: var(–muted); padding: 28px 20px;
-font-size: 0.85rem; border: 1px dashed var(–border); border-radius: var(–radius);
-}
-.items-empty span { display: block; font-size: 1.8rem; margin-bottom: 8px; }
+        .items-empty {
+            text-align: center; color: var(--muted); padding: 28px 20px;
+            font-size: 0.85rem; border: 1px dashed var(--border); border-radius: var(--radius);
+        }
+        .items-empty span { display: block; font-size: 1.8rem; margin-bottom: 8px; }
 
-.item-card {
-display: flex; align-items: center; gap: 10px;
-background: var(–surface2); border: 1px solid var(–border);
-border-radius: 10px; padding: 12px;
-margin-bottom: 8px;
-}
-.item-card:last-of-type { margin-bottom: 0; }
+        .item-card {
+            display: flex; align-items: center; gap: 10px;
+            background: var(--surface2); border: 1px solid var(--border);
+            border-radius: 10px; padding: 12px;
+            margin-bottom: 8px;
+        }
+        .item-left { flex: 1; min-width: 0; }
+        .item-top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 5px; }
+        .item-aro { font-family: var(--mono); font-size: 0.95rem; font-weight: 600; color: var(--text); }
+        .item-row { display: flex; gap: 14px; flex-wrap: wrap; }
+        .item-stat { font-size: 0.77rem; color: var(--muted); }
+        .item-stat strong { color: var(--text); font-weight: 600; }
 
-.item-left { flex: 1; min-width: 0; }
-.item-top  { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 5px; }
-.item-aro  { font-family: var(–mono); font-size: 0.95rem; font-weight: 600; color: var(–text); }
+        .badge {
+            display: inline-block; font-size: 0.63rem; font-weight: 700;
+            padding: 2px 7px; border-radius: 20px; letter-spacing: 0.04em; white-space: nowrap;
+        }
+        .badge-passeio { background: rgba(59,130,246,0.15); color: #93c5fd; }
+        .badge-4x4 { background: rgba(245,158,11,0.15); color: #fcd34d; }
+        .badge-pneus { background: rgba(34,197,94,0.12);  color: #86efac; }
+        .badge-on { background: rgba(34,197,94,0.15);  color: var(--success); }
+        .badge-off { background: rgba(239,68,68,0.12);  color: #f87171; }
 
-.item-row  { display: flex; gap: 14px; flex-wrap: wrap; }
-.item-stat { font-size: 0.77rem; color: var(–muted); }
-.item-stat strong { color: var(–text); font-weight: 600; }
+        .btn-del {
+            background: transparent; border: 1px solid var(--border); color: var(--muted);
+            border-radius: 8px; min-width: 36px; height: 36px; cursor: pointer; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+        }
 
-.badge {
-display: inline-block; font-size: 0.63rem; font-weight: 700;
-padding: 2px 7px; border-radius: 20px; letter-spacing: 0.04em; white-space: nowrap;
-}
-.badge-passeio { background: rgba(59,130,246,0.15); color: #93c5fd; }
-.badge-4x4     { background: rgba(245,158,11,0.15); color: #fcd34d; }
-.badge-pneus   { background: rgba(34,197,94,0.12);  color: #86efac; }
-.badge-on      { background: rgba(34,197,94,0.15);  color: var(–success); }
-.badge-off     { background: rgba(239,68,68,0.12);  color: #f87171; }
+        .btn-clear {
+            width: 100%; margin-top: 10px; padding: 10px; background: transparent;
+            border: 1px solid var(--border); border-radius: var(--radius);
+            color: var(--muted); cursor: pointer;
+        }
 
-.btn-del {
-background: transparent; border: 1px solid var(–border); color: var(–muted);
-border-radius: 8px; min-width: 36px; height: 36px; cursor: pointer; flex-shrink: 0;
-display: flex; align-items: center; justify-content: center;
-transition: all 0.15s; font-size: 14px;
-}
-.btn-del:active { background: rgba(239,68,68,0.15); border-color: var(–danger); color: var(–danger); }
+        .result-card {
+            background: linear-gradient(135deg, rgba(59,130,246,0.07), rgba(29,78,216,0.03));
+            border: 1px solid rgba(59,130,246,0.22); border-radius: 14px; padding: 16px;
+        }
+        .stats-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 16px; }
+        .stat-box {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 10px; padding: 12px 8px; text-align: center;
+        }
+        .stat-val { font-size: 1.5rem; font-weight: 700; color: var(--accent2); font-family: var(--mono); }
+        .stat-lbl { font-size: 0.62rem; color: var(--muted); text-transform: uppercase; }
 
-.btn-clear {
-width: 100%; margin-top: 10px; padding: 10px; background: transparent;
-border: 1px solid var(–border); border-radius: var(–radius);
-color: var(–muted); font-family: ‘DM Sans’, sans-serif; font-size: 0.85rem;
-cursor: pointer; transition: all 0.15s;
-}
-.btn-clear:active { border-color: var(–danger); color: var(–danger); }
-
-/* Result */
-.result-card {
-background: linear-gradient(135deg, rgba(59,130,246,0.07), rgba(29,78,216,0.03));
-border: 1px solid rgba(59,130,246,0.22); border-radius: 14px; padding: 16px;
-}
-.result-card .card-title { color: var(–accent2); }
-
-.stats-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 16px; }
-.stat-box {
-background: var(–surface); border: 1px solid var(–border);
-border-radius: 10px; padding: 12px 8px; text-align: center;
-}
-.stat-val { font-size: 1.5rem; font-weight: 700; color: var(–accent2); font-family: var(–mono); letter-spacing: -0.03em; }
-.stat-lbl { font-size: 0.62rem; color: var(–muted); margin-top: 3px; text-transform: uppercase; letter-spacing: 0.07em; }
-
-.vol-list { display: flex; flex-direction: column; gap: 6px; }
-.vol-row {
-background: var(–surface); border: 1px solid var(–border);
-border-radius: 8px; padding: 11px 13px;
-}
-.vol-top {
-display: flex; align-items: baseline; gap: 8px; margin-bottom: 2px;
-}
-.vol-count { font-weight: 700; color: var(–accent2); font-family: var(–mono); font-size: 0.9rem; }
-.vol-dim   { font-family: var(–mono); font-size: 0.88rem; color: var(–text); }
-.vol-bottom { font-size: 0.75rem; color: var(–muted); }
-
-::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: var(–surface2); }
-::-webkit-scrollbar-thumb { background: var(–border); border-radius: 3px; }
-</style>
-
+        .vol-list { display: flex; flex-direction: column; gap: 6px; }
+        .vol-row { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 11px 13px; }
+        .vol-top { display: flex; align-items: baseline; gap: 8px; }
+        .vol-count { font-weight: 700; color: var(--accent2); font-family: var(--mono); }
+        .vol-bottom { font-size: 0.75rem; color: var(--muted); }
+    </style>
 </head>
 <body>
+
 <div class="wrap">
+    <header>
+        <div class="logo">🚗</div>
+        <div>
+            <h1>Cotação de Expedição</h1>
+            <p>Rodas &amp; Pneus — volumes para transportadora</p>
+        </div>
+    </header>
 
-  <header>
-    <div class="logo">🚗</div>
-    <div>
-      <h1>Cotação de Expedição</h1>
-      <p>Rodas &amp; Pneus — volumes para transportadora</p>
+    <div class="card">
+        <div class="card-title">Adicionar item</div>
+        <div class="tabs">
+            <div class="tab active" onclick="setTipo('PASSEIO')">🚙 Passeio</div>
+            <div class="tab" onclick="setTipo('4x4')">🛻 4×4</div>
+            <div class="tab" onclick="setTipo('PNEUS')">⭕ Pneus</div>
+        </div>
+
+        <div class="field">
+            <label>Buscar modelo</label>
+            <div class="search-wrap">
+                <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                <input type="text" id="search" placeholder="Ex: 17x7, 225/45..." oninput="popularItens()">
+            </div>
+        </div>
+
+        <div class="field">
+            <label>Selecione o modelo</label>
+            <select id="item" size="5"></select>
+        </div>
+
+        <div class="row2">
+            <div class="field">
+                <label>Quantidade</label>
+                <input type="number" id="quantidade" value="4" min="1">
+            </div>
+            <div class="field">
+                <label>Dados do item</label>
+                <div class="info-box" id="itemInfo">—</div>
+            </div>
+        </div>
+
+        <div class="toggle-row">
+            <div>
+                <div class="toggle-label">Embalar juntas</div>
+                <div class="toggle-sub">Agrupa 2 caixas por volume</div>
+            </div>
+            <label class="toggle">
+                <input type="checkbox" id="embalar">
+                <span class="slider"></span>
+            </label>
+        </div>
+
+        <button class="btn-add" id="btnAdd" onclick="adicionarItem()">+ Adicionar à cotação</button>
     </div>
-  </header>
 
-  <!-- FORM -->
-
-  <div class="card">
-    <div class="card-title">Adicionar item</div>
-
-```
-<div class="tabs">
-  <div class="tab active" onclick="setTipo('PASSEIO')">🚙 Passeio</div>
-  <div class="tab"        onclick="setTipo('4x4')">🛻 4×4</div>
-  <div class="tab"        onclick="setTipo('PNEUS')">⭕ Pneus</div>
-</div>
-
-<div class="field">
-  <label>Buscar modelo</label>
-  <div class="search-wrap">
-    <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-    <input type="text" id="search" placeholder="Ex: 17x7, 225/45..." oninput="popularItens()">
-  </div>
-</div>
-
-<div class="field">
-  <label>Selecione o modelo</label>
-  <select id="item" size="5"></select>
-</div>
-
-<div class="row2">
-  <div class="field">
-    <label>Quantidade</label>
-    <input type="number" id="quantidade" value="4" min="1">
-  </div>
-  <div class="field">
-    <label>Dados do item</label>
-    <div class="info-box" id="itemInfo">—</div>
-  </div>
-</div>
-
-<div class="toggle-row">
-  <div>
-    <div class="toggle-label">Embalar juntas</div>
-    <div class="toggle-sub">Agrupa 2 caixas por volume</div>
-  </div>
-  <label class="toggle">
-    <input type="checkbox" id="embalar">
-    <span class="slider"></span>
-  </label>
-</div>
-
-<button class="btn-add" id="btnAdd" onclick="adicionarItem()">+ Adicionar à cotação</button>
-```
-
-  </div>
-
-  <!-- ITENS -->
-
-  <div class="card">
-    <div class="card-title">Itens na cotação</div>
-    <div id="listaItens">
-      <div class="items-empty"><span>📦</span>Nenhum item adicionado ainda.</div>
+    <div class="card">
+        <div class="card-title">Itens na cotação</div>
+        <div id="listaItens">
+            <div class="items-empty"><span>📦</span>Nenhum item adicionado ainda.</div>
+        </div>
+        <button class="btn-clear" id="btnClear" style="display:none" onclick="limparTudo()">🗑 Limpar tudo</button>
     </div>
-    <button class="btn-clear" id="btnClear" style="display:none" onclick="limparTudo()">🗑 Limpar tudo</button>
-  </div>
 
-  <!-- RESULTADO -->
-
-  <div class="result-card" id="resultadoTotal" style="display:none">
-    <div class="card-title">Resumo para transportadora</div>
-    <div class="stats-grid">
-      <div class="stat-box">
-        <div class="stat-val" id="totalPecas">—</div>
-        <div class="stat-lbl">Peças</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-val" id="totalPeso">—</div>
-        <div class="stat-lbl">Peso kg</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-val" id="totalVolumes">—</div>
-        <div class="stat-lbl">Volumes</div>
-      </div>
+    <div class="result-card" id="resultadoTotal" style="display:none">
+        <div class="card-title">Resumo para transportadora</div>
+        <div class="stats-grid">
+            <div class="stat-box">
+                <div class="stat-val" id="totalPecas">—</div>
+                <div class="stat-lbl">Peças</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-val" id="totalPeso">—</div>
+                <div class="stat-lbl">Peso kg</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-val" id="totalVolumes">—</div>
+                <div class="stat-lbl">Volumes</div>
+            </div>
+        </div>
+        <div class="vol-list" id="detalhamentoVolumes"></div>
     </div>
-    <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;">Detalhamento</div>
-    <div class="vol-list" id="detalhamentoVolumes"></div>
-  </div>
-
 </div>
+
 <script>
 const dados = {
-  PASSEIO: [
-    { aro:"13x5,5",   peso:7.5,  dim:[38,38,38], porCaixa:2 },
-    { aro:"14x5",     peso:8,    dim:[41,41,33], porCaixa:2 },
-    { aro:"14x6",     peso:8,    dim:[41,41,39], porCaixa:2 },
-    { aro:"14x7",     peso:8,    dim:[42,42,42], porCaixa:2 },
-    { aro:"15x4",     peso:8,    dim:[43,43,17], porCaixa:1 },
-    { aro:"15x6",     peso:10,   dim:[43,43,40], porCaixa:2 },
-    { aro:"15x7",     peso:10,   dim:[43,43,24], porCaixa:1 },
-    { aro:"15x7,5",   peso:10,   dim:[43,43,26], porCaixa:1 },
-    { aro:"15x8",     peso:10,   dim:[45,45,27], porCaixa:1 },
-    { aro:"15x10",    peso:12.5, dim:[45,45,32], porCaixa:1 },
-    { aro:"16x6",     peso:11,   dim:[47,47,22], porCaixa:1 },
-    { aro:"17x4",     peso:11,   dim:[50,50,17], porCaixa:1 },
-    { aro:"17x6",     peso:13,   dim:[50,50,22], porCaixa:1 },
-    { aro:"17x7 C10", peso:12.5, dim:[50,50,25], porCaixa:1 },
-    { aro:"17x7",     peso:14,   dim:[50,50,25], porCaixa:1 },
-    { aro:"17x8",     peso:14,   dim:[50,50,27], porCaixa:1 },
-    { aro:"17x8,5",   peso:14,   dim:[50,50,29], porCaixa:1 },
-    { aro:"18x6",     peso:14,   dim:[53,53,22], porCaixa:1 },
-    { aro:"18x7",     peso:15,   dim:[53,53,25], porCaixa:1 },
-    { aro:"18x8",     peso:15,   dim:[53,53,27], porCaixa:1 },
-    { aro:"18x8,5",   peso:15,   dim:[53,53,28], porCaixa:1 },
-    { aro:"19x4",     peso:8,    dim:[55,55,17], porCaixa:1 },
-    { aro:"19x7",     peso:16,   dim:[55,55,24], porCaixa:1 },
-    { aro:"19x8",     peso:16,   dim:[55,55,27], porCaixa:1 },
-    { aro:"20x7,5",   peso:18,   dim:[58,58,26], porCaixa:1 },
-    { aro:"20x8",     peso:20,   dim:[58,58,27], porCaixa:1 },
-    { aro:"20x9",     peso:22.5, dim:[55,55,28], porCaixa:1 },
-  ],
-  "4x4": [
-    { aro:"16x6",       peso:13,   dim:[48,48,22], porCaixa:1 },
-    { aro:"16x7",       peso:16,   dim:[48,48,25], porCaixa:1 },
-    { aro:"16x9",       peso:14.5, dim:[48,48,30], porCaixa:1 },
-    { aro:"17x7",       peso:16,   dim:[50,50,25], porCaixa:1 },
-    { aro:"17x8",       peso:17,   dim:[50,50,27], porCaixa:1 },
-    { aro:"17x9",       peso:20,   dim:[49,49,28], porCaixa:1 },
-    { aro:"18x7",       peso:18,   dim:[53,53,25], porCaixa:1 },
-    { aro:"18x7,5",     peso:18,   dim:[53,53,26], porCaixa:1 },
-    { aro:"M22 18x8,5", peso:15,   dim:[53,53,29], porCaixa:1 },
-    { aro:"20x8,5",     peso:20,   dim:[58,58,28], porCaixa:1 },
-    { aro:"22x9",       peso:22,   dim:[63,63,30], porCaixa:1 },
-  ],
-  PNEUS: [
-    { aro:"125/80R17", peso:4,    dim:[64,64,13], porCaixa:1 },
-    { aro:"155/80R19", peso:7,    dim:[73,73,16], porCaixa:1 },
-    { aro:"165/35R17", peso:6.3,  dim:[55,55,17], porCaixa:1 },
-    { aro:"165/35R18", peso:7.6,  dim:[57,57,17], porCaixa:1 },
-    { aro:"165/40R17", peso:5,    dim:[57,57,17], porCaixa:1 },
-    { aro:"165/45R15", peso:6.4,  dim:[53,53,17], porCaixa:1 },
-    { aro:"165/65R15", peso:9.1,  dim:[64,64,20], porCaixa:1 },
-    { aro:"165/80R15", peso:6,    dim:[65,65,17], porCaixa:1 },
-    { aro:"175/80R13", peso:8,    dim:[61,61,18], porCaixa:1 },
-    { aro:"195/50R15", peso:9.5,  dim:[58,58,20], porCaixa:1 },
-    { aro:"195/55R15", peso:9.9,  dim:[60,60,20], porCaixa:1 },
-    { aro:"195/65R15", peso:9.1,  dim:[64,64,20], porCaixa:1 },
-    { aro:"195/70R14", peso:9.5,  dim:[63,63,20], porCaixa:1 },
-    { aro:"205/60R15", peso:9.9,  dim:[63,63,21], porCaixa:1 },
-    { aro:"205/70R14", peso:8,    dim:[65,65,21], porCaixa:1 },
-    { aro:"215/60R14", peso:10,   dim:[62,62,22], porCaixa:1 },
-    { aro:"215/60R15", peso:11,   dim:[64,64,22], porCaixa:1 },
-    { aro:"215/70R15", peso:11,   dim:[69,69,22], porCaixa:1 },
-    { aro:"225/45R17", peso:12.1, dim:[64,64,23], porCaixa:1 },
-    { aro:"225/60R14", peso:10.7, dim:[63,63,23], porCaixa:1 },
-    { aro:"225/60R15", peso:12.1, dim:[66,66,23], porCaixa:1 },
-    { aro:"225/70R15", peso:11.6, dim:[70,70,23], porCaixa:1 },
-    { aro:"235/40R18", peso:12.5, dim:[65,65,24], porCaixa:1 },
-    { aro:"235/60R14", peso:11,   dim:[64,64,24], porCaixa:1 },
-    { aro:"235/60R15", peso:12,   dim:[67,67,24], porCaixa:1 },
-    { aro:"245/60R14", peso:11,   dim:[65,65,25], porCaixa:1 },
-    { aro:"255/60R15", peso:13,   dim:[69,69,26], porCaixa:1 },
-    { aro:"295/50R15", peso:13,   dim:[68,68,30], porCaixa:1 },
-  ]
+    PASSEIO: [
+        { aro:"13x5,5", peso:7.5, dim:[38,38,38], porCaixa:2 },
+        { aro:"14x5", peso:8, dim:[41,41,33], porCaixa:2 },
+        { aro:"14x6", peso:8, dim:[41,41,39], porCaixa:2 },
+        { aro:"14x7", peso:8, dim:[42,42,42], porCaixa:2 },
+        { aro:"15x4", peso:8, dim:[43,43,17], porCaixa:1 },
+        { aro:"15x6", peso:10, dim:[43,43,40], porCaixa:1 },
+        { aro:"15x7", peso:10, dim:[43,43,24], porCaixa:1 },
+        { aro:"15x7,5", peso:10, dim:[43,43,26], porCaixa:1 },
+        { aro:"15x8", peso:10, dim:[45,45,27], porCaixa:1 },
+        { aro:"15x10", peso:12.5, dim:[45,45,32], porCaixa:1 },
+        { aro:"16x6", peso:11, dim:[47,47,22], porCaixa:1 },
+        { aro:"17x4", peso:11, dim:[50,50,17], porCaixa:1 },
+        { aro:"17x6", peso:13, dim:[50,50,22], porCaixa:1 },
+        { aro:"17x7 C10", peso:12.5, dim:[50,50,25], porCaixa:1 },
+        { aro:"17x7", peso:14, dim:[50,50,25], porCaixa:1 },
+        { aro:"17x8", peso:14, dim:[50,50,27], porCaixa:1 },
+        { aro:"17x8,5", peso:14, dim:[50,50,29], porCaixa:1 },
+        { aro:"18x6", peso:14, dim:[53,53,22], porCaixa:1 },
+        { aro:"18x7", peso:15, dim:[53,53,25], porCaixa:1 },
+        { aro:"18x8", peso:15, dim:[53,53,27], porCaixa:1 },
+        { aro:"18x8,5", peso:15, dim:[53,53,28], porCaixa:1 },
+        { aro:"19x4", peso:8, dim:[55,55,17], porCaixa:1 },
+        { aro:"19x7", peso:16, dim:[55,55,24], porCaixa:1 },
+        { aro:"19x8", peso:16, dim:[55,55,27], porCaixa:1 },
+        { aro:"20x7,5", peso:18, dim:[58,58,26], porCaixa:1 },
+        { aro:"20x8", peso:20, dim:[58,58,27], porCaixa:1 },
+        { aro:"20x9", peso:22.5, dim:[55,55,28], porCaixa:1 },
+    ],
+    "4x4": [
+        { aro:"16x6", peso:13, dim:[48,48,22], porCaixa:1 },
+        { aro:"16x7", peso:16, dim:[48,48,25], porCaixa:1 },
+        { aro:"16x9", peso:14.5, dim:[48,48,30], porCaixa:1 },
+        { aro:"17x7", peso:16, dim:[50,50,25], porCaixa:1 },
+        { aro:"17x8", peso:17, dim:[50,50,27], porCaixa:1 },
+        { aro:"17x9", peso:20, dim:[49,49,28], porCaixa:1 },
+        { aro:"18x7", peso:18, dim:[53,53,25], porCaixa:1 },
+        { aro:"18x7,5", peso:18, dim:[53,53,26], porCaixa:1 },
+        { aro:"M22 18x8,5", peso:15, dim:[53,53,29], porCaixa:1 },
+        { aro:"20x8,5", peso:20, dim:[58,58,28], porCaixa:1 },
+        { aro:"22x9", peso:22, dim:[63,63,30], porCaixa:1 },
+    ],
+    PNEUS: [
+        { aro:"125/80R17", peso:4, dim:[64,64,13], porCaixa:1 },
+        { aro:"155/80R19", peso:7, dim:[73,73,16], porCaixa:1 },
+        { aro:"165/35R17", peso:6.3, dim:[55,55,17], porCaixa:1 },
+        { aro:"165/35R18", peso:7.6, dim:[57,57,17], porCaixa:1 },
+        { aro:"165/40R17", peso:5, dim:[57,57,17], porCaixa:1 },
+        { aro:"165/45R15", peso:6.4, dim:[53,53,17], porCaixa:1 },
+        { aro:"165/65R15", peso:9.1, dim:[64,64,20], porCaixa:1 },
+        { aro:"165/80R15", peso:6, dim:[65,65,17], porCaixa:1 },
+        { aro:"175/80R13", peso:8, dim:[61,61,18], porCaixa:1 },
+        { aro:"195/50R15", peso:9.5, dim:[58,58,20], porCaixa:1 },
+        { aro:"195/55R15", peso:9.9, dim:[60,60,20], porCaixa:1 },
+        { aro:"195/65R15", peso:9.1, dim:[64,64,20], porCaixa:1 },
+        { aro:"195/70R14", peso:9.5, dim:[63,63,20], porCaixa:1 },
+        { aro:"205/60R15", peso:9.9, dim:[63,63,21], porCaixa:1 },
+        { aro:"205/70R14", peso:8, dim:[65,65,21], porCaixa:1 },
+        { aro:"215/60R14", peso:10, dim:[62,62,22], porCaixa:1 },
+        { aro:"215/60R15", peso:11, dim:[64,64,22], porCaixa:1 },
+        { aro:"215/70R15", peso:11, dim:[69,69,22], porCaixa:1 },
+        { aro:"225/45R17", peso:12.1, dim:[64,64,23], porCaixa:1 },
+        { aro:"225/60R14", peso:10.7, dim:[63,63,23], porCaixa:1 },
+        { aro:"225/60R15", peso:12.1, dim:[66,66,23], porCaixa:1 },
+        { aro:"225/70R15", peso:11.6, dim:[70,70,23], porCaixa:1 },
+        { aro:"235/40R18", peso:12.5, dim:[65,65,24], porCaixa:1 },
+        { aro:"235/60R14", peso:11, dim:[64,64,24], porCaixa:1 },
+        { aro:"235/60R15", peso:12, dim:[67,67,24], porCaixa:1 },
+        { aro:"245/60R14", peso:11, dim:[65,65,25], porCaixa:1 },
+        { aro:"255/60R15", peso:13, dim:[69,69,26], porCaixa:1 },
+        { aro:"295/50R15", peso:13, dim:[68,68,30], porCaixa:1 },
+    ]
 };
 
-let tipoAtual = ‘PASSEIO’;
+let tipoAtual = 'PASSEIO';
 let cotacao = [];
 let idCounter = 0;
 
 function setTipo(t) {
-tipoAtual = t;
-const tabs = [‘PASSEIO’,‘4x4’,‘PNEUS’];
-document.querySelectorAll(’.tab’).forEach((el,i) => el.classList.toggle(‘active’, tabs[i]===t));
-document.getElementById(‘search’).value = ‘’;
-popularItens();
+    tipoAtual = t;
+    const tabs = ['PASSEIO','4x4','PNEUS'];
+    document.querySelectorAll('.tab').forEach((el,i) => el.classList.toggle('active', tabs[i]===t));
+    document.getElementById('search').value = '';
+    popularItens();
 }
 
 function popularItens() {
-const search = document.getElementById(‘search’).value.toLowerCase();
-const sel = document.getElementById(‘item’);
-sel.innerHTML = ‘’;
-(dados[tipoAtual]||[]).forEach((item,i) => {
-if (item.aro.toLowerCase().includes(search)) {
-const o = document.createElement(‘option’);
-o.value = i;
-o.textContent = `${item.aro}  ·  ${item.peso}kg  ·  ${item.dim.join('×')}cm`;
-sel.appendChild(o);
-}
-});
-if (sel.options.length) { sel.selectedIndex = 0; atualizarInfo(); }
-else document.getElementById(‘itemInfo’).textContent = ‘—’;
+    const search = document.getElementById('search').value.toLowerCase();
+    const sel = document.getElementById('item');
+    sel.innerHTML = '';
+    (dados[tipoAtual]||[]).forEach((item,i) => {
+        if (item.aro.toLowerCase().includes(search)) {
+            const o = document.createElement('option');
+            o.value = i;
+            o.textContent = `${item.aro}  ·  ${item.peso}kg  ·  ${item.dim.join('×')}cm`;
+            sel.appendChild(o);
+        }
+    });
+    if (sel.options.length) { sel.selectedIndex = 0; atualizarInfo(); }
+    else document.getElementById('itemInfo').textContent = '—';
 }
 
 function atualizarInfo() {
-const sel = document.getElementById(‘item’);
-if (!sel.options.length) return;
-const item = dados[tipoAtual][sel.value];
-if (!item) return;
-document.getElementById(‘itemInfo’).innerHTML =
-`<span style="color:var(--accent2)">${item.peso}kg</span>/un<br>${item.dim.join('×')}cm · ${item.porCaixa}/cx`;
+    const sel = document.getElementById('item');
+    if (!sel.options.length) return;
+    const item = dados[tipoAtual][sel.value];
+    if (!item) return;
+    document.getElementById('itemInfo').innerHTML =
+        `<span style="color:var(--accent2)">${item.peso}kg</span>/un<br>${item.dim.join('×')}cm · ${item.porCaixa}/cx`;
 }
 
-document.getElementById(‘item’).addEventListener(‘change’, atualizarInfo);
+document.getElementById('item').addEventListener('change', atualizarInfo);
 
 function calcularVolumes(item, qtd, embalar) {
-const [c,l,a] = item.dim;
-let alturas = [];
-if (item.porCaixa === 2) {
-for (let i=0; i<Math.floor(qtd/2); i++) alturas.push(a);
-if (qtd%2) alturas.push(a/2);
-} else {
-for (let i=0; i<qtd; i++) alturas.push(a);
-}
-let vols = [];
-if (embalar) {
-for (let i=0; i<alturas.length; i+=2) {
-const p1 = alturas[i]===a ? item.peso*item.porCaixa : item.peso;
-if (alturas[i+1]!==undefined) {
-const p2 = alturas[i+1]===a ? item.peso*item.porCaixa : item.peso;
-vols.push({ comp:c, larg:l, alt:alturas[i]+alturas[i+1], peso:p1+p2 });
-} else {
-vols.push({ comp:c, larg:l, alt:alturas[i], peso:p1 });
-}
-}
-} else {
-alturas.forEach(alt => {
-const p = alt===a ? item.peso*item.porCaixa : item.peso;
-vols.push({ comp:c, larg:l, alt, peso:p });
-});
-}
-return vols;
+    const [c,l,a] = item.dim;
+    let alturas = [];
+    if (item.porCaixa === 2) {
+        for (let i=0; i<Math.floor(qtd/2); i++) alturas.push(a);
+        if (qtd%2) alturas.push(a/2);
+    } else {
+        for (let i=0; i<qtd; i++) alturas.push(a);
+    }
+    
+    let vols = [];
+    if (embalar) {
+        for (let i=0; i<alturas.length; i+=2) {
+            const p1 = alturas[i]===a ? item.peso*item.porCaixa : item.peso;
+            if (alturas[i+1]!==undefined) {
+                const p2 = alturas[i+1]===a ? item.peso*item.porCaixa : item.peso;
+                vols.push({ comp:c, larg:l, alt:alturas[i]+alturas[i+1], peso:p1+p2 });
+            } else {
+                vols.push({ comp:c, larg:l, alt:alturas[i], peso:p1 });
+            }
+        }
+    } else {
+        alturas.forEach(alt => {
+            const p = alt===a ? item.peso*item.porCaixa : item.peso;
+            vols.push({ comp:c, larg:l, alt, peso:p });
+        });
+    }
+    return vols;
 }
 
 function adicionarItem() {
-const sel = document.getElementById(‘item’);
-const qtd = parseInt(document.getElementById(‘quantidade’).value);
-const embalar = document.getElementById(‘embalar’).checked;
-if (!sel.options.length || isNaN(qtd) || qtd<1) return;
+    const sel = document.getElementById('item');
+    const qtd = parseInt(document.getElementById('quantidade').value);
+    const embalar = document.getElementById('embalar').checked;
+    if (!sel.options.length || isNaN(qtd) || qtd<1) return;
 
-const item = dados[tipoAtual][sel.value];
-cotacao.push({ id:idCounter++, tipo:tipoAtual, aro:item.aro, qtd, embalar, pesoUnit:item.peso, volumes:calcularVolumes(item,qtd,embalar) });
-renderItens();
-renderResultado();
+    const item = dados[tipoAtual][sel.value];
+    cotacao.push({ 
+        id:idCounter++, 
+        tipo:tipoAtual, 
+        aro:item.aro, 
+        qtd, 
+        embalar, 
+        pesoUnit:item.peso, 
+        volumes:calcularVolumes(item,qtd,embalar) 
+    });
+    renderItens();
+    renderResultado();
 
-const btn = document.getElementById(‘btnAdd’);
-btn.textContent = ‘✓ Adicionado!’;
-btn.style.background = ‘linear-gradient(135deg,#16a34a,#15803d)’;
-setTimeout(()=>{ btn.textContent=’+ Adicionar à cotação’; btn.style.background=’’; },1300);
+    const btn = document.getElementById('btnAdd');
+    btn.textContent = '✓ Adicionado!';
+    btn.style.background = 'linear-gradient(135deg,#16a34a,#15803d)';
+    setTimeout(()=>{ 
+        btn.textContent='+ Adicionar à cotação'; 
+        btn.style.background=''; 
+    },1300);
 }
 
 function remover(id) {
-cotacao = cotacao.filter(c=>c.id!==id);
-renderItens(); renderResultado();
+    cotacao = cotacao.filter(c=>c.id!==id);
+    renderItens(); 
+    renderResultado();
 }
 
 function limparTudo() {
-if (!confirm(‘Limpar todos os itens?’)) return;
-cotacao = []; renderItens(); renderResultado();
+    if (!confirm('Limpar todos os itens?')) return;
+    cotacao = []; 
+    renderItens(); 
+    renderResultado();
 }
 
-const badgeClass = { PASSEIO:‘badge-passeio’, ‘4x4’:‘badge-4x4’, PNEUS:‘badge-pneus’ };
-const badgeLabel = { PASSEIO:‘Passeio’, ‘4x4’:‘4×4’, PNEUS:‘Pneu’ };
+const badgeClass = { PASSEIO:'badge-passeio', '4x4':'badge-4x4', PNEUS:'badge-pneus' };
+const badgeLabel = { PASSEIO:'Passeio', '4x4':'4×4', PNEUS:'Pneu' };
 
 function renderItens() {
-const div = document.getElementById(‘listaItens’);
-document.getElementById(‘btnClear’).style.display = cotacao.length ? ‘block’:‘none’;
+    const div = document.getElementById('listaItens');
+    document.getElementById('btnClear').style.display = cotacao.length ? 'block':'none';
 
-if (!cotacao.length) {
-div.innerHTML = ‘<div class="items-empty"><span>📦</span>Nenhum item adicionado ainda.</div>’;
-return;
-}
+    if (!cotacao.length) {
+        div.innerHTML = '<div class="items-empty"><span>📦</span>Nenhum item adicionado ainda.</div>';
+        return;
+    }
 
-div.innerHTML = cotacao.map(c => `<div class="item-card"> <div class="item-left"> <div class="item-top"> <span class="badge ${badgeClass[c.tipo]}">${badgeLabel[c.tipo]}</span> <span class="item-aro">${c.aro}</span> <span class="badge ${c.embalar?'badge-on':'badge-off'}">${c.embalar?'EMB':'SIM. EMB'}</span> </div> <div class="item-row"> <span class="item-stat"><strong>${c.qtd}</strong> un</span> <span class="item-stat"><strong>${(c.pesoUnit*c.qtd).toFixed(1)}</strong> kg</span> <span class="item-stat"><strong>${c.volumes.length}</strong> vol.</span> </div> </div> <button class="btn-del" onclick="remover(${c.id})">✕</button> </div>`).join(’’);
+    div.innerHTML = cotacao.map(c => `
+        <div class="item-card">
+            <div class="item-left">
+                <div class="item-top">
+                    <span class="badge ${badgeClass[c.tipo]}">${badgeLabel[c.tipo]}</span>
+                    <span class="item-aro">${c.aro}</span>
+                    <span class="badge ${c.embalar?'badge-on':'badge-off'}">${c.embalar?'EMB':'SIMPLES'}</span>
+                </div>
+                <div class="item-row">
+                    <span class="item-stat"><strong>${c.qtd}</strong> un</span>
+                    <span class="item-stat"><strong>${(c.pesoUnit*c.qtd).toFixed(1)}</strong> kg</span>
+                    <span class="item-stat"><strong>${c.volumes.length}</strong> vol.</span>
+                </div>
+            </div>
+            <button class="btn-del" onclick="remover(${c.id})">✕</button>
+        </div>`).join('');
 }
 
 function renderResultado() {
-const div = document.getElementById(‘resultadoTotal’);
-if (!cotacao.length) { div.style.display=‘none’; return; }
-div.style.display = ‘block’;
+    const div = document.getElementById('resultadoTotal');
+    if (!cotacao.length) { div.style.display='none'; return; }
+    div.style.display = 'block';
 
-let totalPecas=0, totalPeso=0, todosVols=[];
-cotacao.forEach(c => {
-totalPecas += c.qtd;
-totalPeso  += c.pesoUnit*c.qtd;
-c.volumes.forEach(v => todosVols.push(v));
-});
+    let totalPecas=0, totalPeso=0, todosVols=[];
+    cotacao.forEach(c => {
+        totalPecas += c.qtd;
+        totalPeso  += c.pesoUnit*c.qtd;
+        c.volumes.forEach(v => todosVols.push(v));
+    });
 
-const grupos = {};
-todosVols.forEach(v => {
-const k = `${v.comp}x${v.larg}x${Math.ceil(v.alt)}`;
-if (!grupos[k]) grupos[k] = { comp:v.comp, larg:v.larg, alt:Math.ceil(v.alt), count:0, peso:0 };
-grupos[k].count++;
-grupos[k].peso += v.peso;
-});
+    const grupos = {};
+    todosVols.forEach(v => {
+        const k = `${v.comp}x${v.larg}x${Math.ceil(v.alt)}`;
+        if (!grupos[k]) grupos[k] = { comp:v.comp, larg:v.larg, alt:Math.ceil(v.alt), count:0, peso:0 };
+        grupos[k].count++;
+        grupos[k].peso += v.peso;
+    });
 
-document.getElementById(‘totalPecas’).textContent   = totalPecas;
-document.getElementById(‘totalPeso’).textContent    = totalPeso.toFixed(1);
-document.getElementById(‘totalVolumes’).textContent = todosVols.length;
+    document.getElementById('totalPecas').textContent   = totalPecas;
+    document.getElementById('totalPeso').textContent    = totalPeso.toFixed(1);
+    document.getElementById('totalVolumes').textContent = todosVols.length;
 
-document.getElementById(‘detalhamentoVolumes’).innerHTML = Object.values(grupos).map(g=>` <div class="vol-row"> <div class="vol-top"> <span class="vol-count">${g.count}×</span> <span class="vol-dim">${g.comp}×${g.larg}×${g.alt} cm</span> </div> <div class="vol-bottom">${g.count===1?'1 volume':`${g.count} volumes`} · ${g.peso.toFixed(1)} kg</div> </div> `).join(’’);
+    document.getElementById('detalhamentoVolumes').innerHTML = Object.values(grupos).map(g=>`
+        <div class="vol-row">
+            <div class="vol-top">
+                <span class="vol-count">${g.count}×</span>
+                <span class="vol-dim">${g.comp}×${g.larg}×${g.alt} cm</span>
+            </div>
+            <div class="vol-bottom">${g.count===1?'1 volume':`${g.count} volumes`} · ${g.peso.toFixed(1)} kg total</div>
+        </div>`).join('');
 }
 
-document.addEventListener(‘DOMContentLoaded’, popularItens);
+document.addEventListener('DOMContentLoaded', popularItens);
 </script>
 
 </body>
