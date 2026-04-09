@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <title>Cotação de Expedição v2.1</title>
+    <title>Cotação de Expedição v2.0</title>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -59,6 +59,7 @@
         header h1 { font-size: 1.2rem; font-weight: 700; }
         header p { font-size: 0.8rem; color: var(--muted); }
 
+        /* Grid Responsivo */
         .main-grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -76,6 +77,7 @@
             }
         }
 
+        /* Cards */
         .card {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -91,6 +93,7 @@
         }
         .card-title::after { content:''; flex:1; height:1px; background:var(--border); }
 
+        /* Controles */
         .tabs { display: flex; gap: 6px; margin-bottom: 16px; }
         .tab {
             flex: 1; padding: 10px 5px; text-align: center; border-radius: 10px;
@@ -143,6 +146,7 @@
             box-shadow: 0 4px 15px rgba(59,130,246,0.3);
         }
 
+        /* Itens e Resultado */
         .items-empty { text-align: center; color: var(--muted); padding: 40px 0; font-size: 0.9rem; }
         .item-card {
             display: flex; align-items: center; gap: 12px;
@@ -172,6 +176,7 @@
         .vol-count { color: var(--accent2); font-weight: 800; margin-right: 8px; }
         
         .btn-del { background: none; border: none; color: var(--muted); cursor: pointer; padding: 5px; }
+        .btn-del:hover { color: var(--danger); }
     </style>
 </head>
 <body>
@@ -219,7 +224,7 @@
                 <div class="toggle-row">
                     <div>
                         <div style="font-size:0.85rem; font-weight:600">Embalar juntas</div>
-                        <div style="font-size:0.7rem; color:var(--muted)">Empilha 2 caixas por volume</div>
+                        <div style="font-size:0.7rem; color:var(--muted)">2 caixas por volume</div>
                     </div>
                     <label class="toggle">
                         <input type="checkbox" id="embalar">
@@ -374,72 +379,58 @@ function atualizarInfo() {
     document.getElementById('itemInfo').innerHTML = `${item.peso}kg/un | ${item.dim.join('x')}cm | ${item.porCaixa} un/cx`;
 }
 
-// LOGICA DE VOLUMES CORRIGIDA
-function calcularVolumes(item, qtd, embalarDuplo) {
-    const [c, l, a] = item.dim;
-    const pesoPorCaixa = item.peso * item.porCaixa;
+function calcularVolumes(item, qtd, embalar) {
+    const [c,l,a] = item.dim;
+    let alturas = [];
+    if (item.porCaixa === 2) {
+        for (let i=0; i<Math.floor(qtd/2); i++) alturas.push(a);
+        if (qtd%2) alturas.push(a/2);
+    } else {
+        for (let i=0; i<qtd; i++) alturas.push(a);
+    }
     
-    // 1. Descobre quantas CAIXAS físicas existem
-    let numCaixas = Math.ceil(qtd / item.porCaixa);
-    let volumes = [];
-
-    if (embalarDuplo) {
-        // Agrupa de 2 em 2 caixas
-        for (let i = 0; i < numCaixas; i += 2) {
-            if (i + 1 < numCaixas) {
-                // Existe uma segunda caixa para empilhar
-                volumes.push({
-                    comp: c,
-                    larg: l,
-                    alt: a * 2, // DOBRA A ALTURA
-                    peso: pesoPorCaixa * 2 // SOMA O PESO
-                });
+    let vols = [];
+    if (embalar) {
+        for (let i=0; i<alturas.length; i+=2) {
+            const p1 = alturas[i]===a ? item.peso*item.porCaixa : item.peso;
+            if (alturas[i+1]!==undefined) {
+                const p2 = alturas[i+1]===a ? item.peso*item.porCaixa : item.peso;
+                vols.push({ comp:c, larg:l, alt:alturas[i]+alturas[i+1], peso:p1+p2 });
             } else {
-                // Sobrou apenas uma caixa (ímpar)
-                volumes.push({
-                    comp: c,
-                    larg: l,
-                    alt: a,
-                    peso: pesoPorCaixa
-                });
+                vols.push({ comp:c, larg:l, alt:alturas[i], peso:p1 });
             }
         }
     } else {
-        // Despacho simples: cada caixa é um volume
-        for (let i = 0; i < numCaixas; i++) {
-            volumes.push({
-                comp: c,
-                larg: l,
-                alt: a,
-                peso: pesoPorCaixa
-            });
-        }
+        alturas.forEach(alt => {
+            const p = alt===a ? item.peso*item.porCaixa : item.peso;
+            vols.push({ comp:c, larg:l, alt, peso:p });
+        });
     }
-    return volumes;
+    return vols;
 }
 
 function adicionarItem() {
     const sel = document.getElementById('item');
     const qtd = parseInt(document.getElementById('quantidade').value);
     const embalar = document.getElementById('embalar').checked;
-    if (!sel.options.length || isNaN(qtd) || qtd < 1) return;
+    if (!sel.options.length || isNaN(qtd) || qtd<1) return;
 
     const item = dados[tipoAtual][sel.value];
     cotacao.push({ 
-        id: idCounter++, 
-        tipo: tipoAtual, 
-        aro: item.aro, 
+        id:idCounter++, 
+        tipo:tipoAtual, 
+        aro:item.aro, 
         qtd, 
         embalar, 
-        pesoUnit: item.peso, 
-        volumes: calcularVolumes(item, qtd, embalar) 
+        pesoUnit:item.peso, 
+        volumes:calcularVolumes(item,qtd,embalar) 
     });
     renderItens();
     renderResultado();
 }
 
 function remover(id) {
-    cotacao = cotacao.filter(c => c.id !== id);
+    cotacao = cotacao.filter(c=>c.id!==id);
     renderItens(); 
     renderResultado();
 }
@@ -453,7 +444,7 @@ function limparTudo() {
 
 function renderItens() {
     const div = document.getElementById('listaItens');
-    document.getElementById('btnClear').style.display = cotacao.length ? 'block' : 'none';
+    document.getElementById('btnClear').style.display = cotacao.length ? 'block':'none';
 
     if (!cotacao.length) {
         div.innerHTML = '<div class="items-empty">📦 Lista vazia</div>';
@@ -463,10 +454,10 @@ function renderItens() {
     div.innerHTML = cotacao.map(c => `
         <div class="item-card">
             <div class="item-left">
-                <span class="badge ${c.embalar ? 'badge-on' : 'badge-off'}">${c.embalar ? 'EMB. DUPLA' : 'SIMPLES'}</span>
+                <span class="badge ${c.embalar?'badge-on':'badge-off'}">${c.embalar?'EMB. DUPLA':'SIMPLES'}</span>
                 <span class="item-aro">${c.aro}</span>
                 <div style="font-size:0.75rem; color:var(--muted); margin-top:4px;">
-                    ${c.qtd} un · ${(c.pesoUnit * c.qtd).toFixed(1)}kg · ${c.volumes.length} vol.
+                    ${c.qtd} un · ${(c.pesoUnit*c.qtd).toFixed(1)}kg · ${c.volumes.length} vol.
                 </div>
             </div>
             <button class="btn-del" onclick="remover(${c.id})">✕</button>
@@ -475,32 +466,32 @@ function renderItens() {
 
 function renderResultado() {
     const div = document.getElementById('resultadoTotal');
-    if (!cotacao.length) { div.style.display = 'none'; return; }
+    if (!cotacao.length) { div.style.display='none'; return; }
     div.style.display = 'block';
 
-    let totalPecas = 0, totalPeso = 0, todosVols = [];
+    let totalPecas=0, totalPeso=0, todosVols=[];
     cotacao.forEach(c => {
         totalPecas += c.qtd;
-        totalPeso += c.pesoUnit * c.qtd;
+        totalPeso  += c.pesoUnit*c.qtd;
         c.volumes.forEach(v => todosVols.push(v));
     });
 
     const grupos = {};
     todosVols.forEach(v => {
-        const k = `${v.comp}x${v.larg}x${v.alt}`;
-        if (!grupos[k]) grupos[k] = { comp: v.comp, larg: v.larg, alt: v.alt, count: 0, pesoTotal: 0 };
+        const k = `${v.comp}x${v.larg}x${Math.ceil(v.alt)}`;
+        if (!grupos[k]) grupos[k] = { comp:v.comp, larg:v.larg, alt:Math.ceil(v.alt), count:0, peso:0 };
         grupos[k].count++;
-        grupos[k].pesoTotal += v.peso;
+        grupos[k].peso += v.peso;
     });
 
-    document.getElementById('totalPecas').textContent = totalPecas;
-    document.getElementById('totalPeso').textContent = totalPeso.toFixed(1);
+    document.getElementById('totalPecas').textContent   = totalPecas;
+    document.getElementById('totalPeso').textContent    = totalPeso.toFixed(1);
     document.getElementById('totalVolumes').textContent = todosVols.length;
 
-    document.getElementById('detalhamentoVolumes').innerHTML = Object.values(grupos).map(g => `
+    document.getElementById('detalhamentoVolumes').innerHTML = Object.values(grupos).map(g=>`
         <div class="vol-row">
             <div><span class="vol-count">${g.count}x</span> ${g.comp}x${g.larg}x${g.alt} cm</div>
-            <div style="font-size:0.7rem; color:var(--muted); margin-top:3px;">Peso Total do Grupo: ${g.pesoTotal.toFixed(1)}kg</div>
+            <div style="font-size:0.7rem; color:var(--muted); margin-top:3px;">Peso Total do Grupo: ${g.peso.toFixed(1)}kg</div>
         </div>`).join('');
 }
 
