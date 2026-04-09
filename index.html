@@ -1,320 +1,275 @@
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Expedição Pro | Logística</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Cotação de Expedição v2.0</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #f8fafc;
-            --surface: #ffffff;
-            --primary: #2563eb;
-            --primary-hover: #1d4ed8;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-            --border: #e2e8f0;
-            --success: #10b981;
+            --bg: #0f1117;
+            --surface: #181c27;
+            --surface2: #1f2536;
+            --border: #2a3045;
+            --accent: #3b82f6;
+            --accent2: #60a5fa;
+            --accent-glow: rgba(59,130,246,0.18);
+            --text: #e8eaf0;
+            --muted: #7a859e;
             --danger: #ef4444;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --radius: 10px;
+            --success: #22c55e;
+            --radius: 12px;
+            --mono: 'DM Mono', monospace;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg);
-            color: var(--text-main);
-            line-height: 1.5;
-            padding: 40px 20px;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        /* Header */
-        header {
-            margin-bottom: 32px;
-            border-bottom: 2px solid var(--border);
-            padding-bottom: 20px;
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 20px 14px;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            justify-content: center;
         }
 
-        .brand h1 { font-size: 1.5rem; font-weight: 800; color: #0f172a; letter-spacing: -0.025em; }
-        .brand p { color: var(--text-muted); font-size: 0.875rem; }
+        .wrap { 
+            width: 100%; 
+            max-width: 1100px; 
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
 
-        /* Layout Grid */
-        .grid {
+        header { 
+            display: flex; 
+            align-items: center; 
+            gap: 15px; 
+            margin-bottom: 10px; 
+        }
+
+        .logo {
+            width: 48px; height: 48px; border-radius: 12px;
+            background: linear-gradient(135deg, var(--accent), #1d4ed8);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px; box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        header h1 { font-size: 1.2rem; font-weight: 700; }
+        header p { font-size: 0.8rem; color: var(--muted); }
+
+        /* Grid Responsivo */
+        .main-grid {
             display: grid;
-            grid-template-columns: 380px 1fr;
-            gap: 32px;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            align-items: start;
         }
 
-        @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+        @media (min-width: 900px) {
+            .main-grid {
+                grid-template-columns: 400px 1fr;
+            }
+            .sticky-side {
+                position: sticky;
+                top: 20px;
+            }
+        }
 
         /* Cards */
         .card {
             background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            padding: 24px;
-            height: fit-content;
-        }
-
-        .section-title {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            font-weight: 700;
-            color: var(--text-muted);
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        /* Tabs Profissionais */
-        .tabs {
-            display: flex;
-            background: #f1f5f9;
-            padding: 4px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-
-        .tab {
-            flex: 1;
-            padding: 8px;
-            text-align: center;
-            font-size: 0.875rem;
-            font-weight: 600;
-            cursor: pointer;
-            border-radius: 6px;
-            transition: 0.2s;
-            color: var(--text-muted);
-        }
-
-        .tab.active {
-            background: white;
-            color: var(--primary);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-
-        /* Inputs */
-        .field { margin-bottom: 18px; }
-        label { display: block; font-size: 0.875rem; font-weight: 500; margin-bottom: 6px; }
-        
-        input, select {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            font-size: 0.95rem;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        input:focus { border-color: var(--primary); }
-
-        .info-preview {
-            background: #f8fafc;
-            border: 1px dashed var(--border);
-            padding: 12px;
-            border-radius: 6px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.8rem;
-            color: var(--primary);
+            border-radius: 16px;
+            padding: 20px;
             margin-bottom: 15px;
         }
 
-        /* Toggle Button Custom */
-        .toggle-container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px;
-            background: #f8fafc;
-            border-radius: 8px;
-            margin-bottom: 20px;
+        .card-title {
+            font-size: 0.65rem; font-weight: 800; letter-spacing: 0.12em;
+            text-transform: uppercase; color: var(--muted);
+            margin-bottom: 18px; display: flex; align-items: center; gap: 10px;
+        }
+        .card-title::after { content:''; flex:1; height:1px; background:var(--border); }
+
+        /* Controles */
+        .tabs { display: flex; gap: 6px; margin-bottom: 16px; }
+        .tab {
+            flex: 1; padding: 10px 5px; text-align: center; border-radius: 10px;
+            border: 1px solid var(--border); background: var(--surface2);
+            color: var(--muted); font-size: 0.8rem; font-weight: 600;
+            cursor: pointer; transition: all 0.2s;
+        }
+        .tab.active {
+            background: var(--accent); border-color: var(--accent); color: #fff;
         }
 
-        .btn-primary {
-            width: 100%;
-            padding: 14px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.2s;
+        .field { margin-bottom: 15px; }
+        label { font-size: 0.75rem; font-weight: 600; color: var(--muted); display: block; margin-bottom: 6px; }
+
+        input, select {
+            width: 100%; background: var(--surface2); border: 1px solid var(--border);
+            border-radius: var(--radius); padding: 12px;
+            color: var(--text); font-family: inherit; font-size: 16px;
         }
 
-        .btn-primary:hover { background: var(--primary-hover); transform: translateY(-1px); }
-
-        /* Listagem de Itens */
-        .item-row {
-            display: grid;
-            grid-template-columns: auto 1fr auto;
-            align-items: center;
-            padding: 16px;
-            border-bottom: 1px solid var(--border);
-            gap: 15px;
+        .info-box {
+            background: var(--surface2); border: 1px solid var(--border);
+            border-radius: 10px; padding: 10px; font-family: var(--mono);
+            font-size: 0.75rem; min-height: 48px; display: flex; align-items: center;
         }
 
-        .item-row:last-child { border-bottom: none; }
+        .toggle-row {
+            display: flex; align-items: center; justify-content: space-between;
+            background: var(--surface2); padding: 12px; border-radius: var(--radius);
+            margin-bottom: 15px; border: 1px solid var(--border);
+        }
         
-        .item-icon {
-            width: 40px; height: 40px; background: #eff6ff;
-            border-radius: 8px; display: flex; align-items: center; justify-content: center;
-            color: var(--primary); font-size: 1.2rem;
+        .toggle { position: relative; width: 44px; height: 24px; }
+        .toggle input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute; inset: 0; background: var(--border);
+            border-radius: 24px; cursor: pointer; transition: .2s;
+        }
+        .slider::before {
+            content:''; position:absolute; width:18px; height:18px;
+            left:3px; top:3px; background:#fff; border-radius:50%; transition: .2s;
+        }
+        .toggle input:checked + .slider { background: var(--accent); }
+        .toggle input:checked + .slider::before { transform: translateX(20px); }
+
+        .btn-add {
+            width: 100%; padding: 16px; border-radius: var(--radius); border: none;
+            background: linear-gradient(135deg, var(--accent), #1d4ed8);
+            color: #fff; font-size: 1rem; font-weight: 700; cursor: pointer;
+            box-shadow: 0 4px 15px rgba(59,130,246,0.3);
         }
 
-        .item-details h4 { font-size: 0.95rem; font-weight: 700; }
-        .item-details p { font-size: 0.8rem; color: var(--text-muted); }
-
-        .badge-pill {
-            padding: 2px 8px; border-radius: 12px; font-size: 0.65rem; font-weight: 700;
-            text-transform: uppercase;
+        /* Itens e Resultado */
+        .items-empty { text-align: center; color: var(--muted); padding: 40px 0; font-size: 0.9rem; }
+        .item-card {
+            display: flex; align-items: center; gap: 12px;
+            background: var(--surface2); border: 1px solid var(--border);
+            border-radius: 12px; padding: 12px; margin-bottom: 10px;
         }
-        .bg-blue { background: #e0e7ff; color: #4338ca; }
-        .bg-gray { background: #f1f5f9; color: #475569; }
-
-        /* Resultado */
-        .summary-card {
-            background: #1e293b;
-            color: white;
-            border-radius: var(--radius);
-            padding: 24px;
-            margin-top: 24px;
+        .item-left { flex: 1; }
+        .item-aro { font-weight: 700; color: var(--text); font-family: var(--mono); }
+        
+        .badge {
+            font-size: 0.6rem; font-weight: 800; padding: 2px 8px; 
+            border-radius: 10px; text-transform: uppercase; margin-right: 5px;
         }
+        .badge-on { background: rgba(34,197,94,0.15); color: var(--success); }
+        .badge-off { background: rgba(239,68,68,0.1); color: var(--danger); }
 
-        .stats {
-            display: flex;
-            gap: 40px;
-            margin-bottom: 24px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #334155;
+        .result-card {
+            background: linear-gradient(160deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid rgba(59,130,246,0.3); border-radius: 18px; padding: 20px;
         }
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+        .stat-box { background: rgba(0,0,0,0.2); border-radius: 12px; padding: 15px 5px; text-align: center; }
+        .stat-val { font-size: 1.5rem; font-weight: 700; color: var(--accent2); font-family: var(--mono); }
+        .stat-lbl { font-size: 0.6rem; color: var(--muted); text-transform: uppercase; margin-top: 4px; }
 
-        .stat-item h5 { color: #94a3b8; font-size: 0.7rem; text-transform: uppercase; margin-bottom: 4px; }
-        .stat-item p { font-size: 1.5rem; font-weight: 700; font-family: 'JetBrains Mono'; }
-
-        .vol-detail {
-            background: rgba(255,255,255,0.05);
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 8px;
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.85rem;
-        }
-
-        .vol-qty { color: #38bdf8; font-weight: 700; }
-
-        .btn-delete {
-            background: none; border: none; color: #cbd5e1; cursor: pointer; padding: 8px;
-        }
-        .btn-delete:hover { color: var(--danger); }
-
+        .vol-row { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 10px; padding: 12px; margin-bottom: 6px; }
+        .vol-count { color: var(--accent2); font-weight: 800; margin-right: 8px; }
+        
+        .btn-del { background: none; border: none; color: var(--muted); cursor: pointer; padding: 5px; }
+        .btn-del:hover { color: var(--danger); }
     </style>
 </head>
 <body>
 
-<div class="container">
+<div class="wrap">
     <header>
-        <div class="brand">
-            <h1>Expedição Pro <span style="color:var(--primary)">.</span></h1>
-            <p>Sistema de Cubagem e Pesagem Logística</p>
+        <div class="logo">🚗</div>
+        <div>
+            <h1>Cotação de Expedição</h1>
+            <p>Calculadora de volumes para logística</p>
         </div>
-        <button onclick="limparTudo()" style="background:none; border:1px solid #e2e8f0; padding:8px 16px; border-radius:6px; cursor:pointer; font-size:0.8rem; font-weight:600; color:var(--text-muted)">Limpar Tudo</button>
     </header>
 
-    <div class="grid">
-        <aside>
+    <main class="main-grid">
+        <div class="sticky-side">
             <div class="card">
-                <div class="section-title">Configurar Item</div>
+                <div class="card-title">Adicionar Produto</div>
                 
                 <div class="tabs">
-                    <div class="tab active" onclick="setTipo('PASSEIO')">Passeio</div>
-                    <div class="tab" onclick="setTipo('4x4')">4x4</div>
-                    <div class="tab" onclick="setTipo('PNEUS')">Pneus</div>
+                    <div class="tab active" onclick="setTipo('PASSEIO')">🚙 Passeio</div>
+                    <div class="tab" onclick="setTipo('4x4')">🛻 4×4</div>
+                    <div class="tab" onclick="setTipo('PNEUS')">⭕ Pneus</div>
                 </div>
 
                 <div class="field">
-                    <label>Buscar Modelo</label>
-                    <input type="text" id="search" placeholder="Ex: 17x7 ou 225/45..." oninput="popularItens()">
+                    <label>Filtrar Modelo</label>
+                    <input type="text" id="search" placeholder="Digite aro ou medida..." oninput="popularItens()">
                 </div>
 
                 <div class="field">
-                    <label>Selecionar Produto</label>
-                    <select id="item" size="4" onchange="atualizarInfo()"></select>
+                    <label>Modelo Selecionado</label>
+                    <select id="item" size="5" onchange="atualizarInfo()"></select>
                 </div>
 
-                <div id="itemInfo" class="info-preview">Selecione um item...</div>
+                <div class="field">
+                    <label>Dados da Peça</label>
+                    <div class="info-box" id="itemInfo">—</div>
+                </div>
 
                 <div class="field">
                     <label>Quantidade de Peças</label>
                     <input type="number" id="quantidade" value="4" min="1">
                 </div>
 
-                <div class="toggle-container">
+                <div class="toggle-row">
                     <div>
-                        <p style="font-size:0.85rem; font-weight:600">Embalagem Dupla</p>
-                        <p style="font-size:0.7rem; color:var(--text-muted)">Unir 2 caixas por volume</p>
+                        <div style="font-size:0.85rem; font-weight:600">Embalar juntas</div>
+                        <div style="font-size:0.7rem; color:var(--muted)">2 caixas por volume</div>
                     </div>
-                    <input type="checkbox" id="embalar" style="width:20px; height:20px; cursor:pointer">
+                    <label class="toggle">
+                        <input type="checkbox" id="embalar">
+                        <span class="slider"></span>
+                    </label>
                 </div>
 
-                <button class="btn-primary" onclick="adicionarItem()">Adicionar à Lista</button>
+                <button class="btn-add" id="btnAdd" onclick="adicionarItem()">Adicionar à Lista</button>
             </div>
-        </aside>
+        </div>
 
-        <main>
-            <div class="card" style="padding:0">
-                <div style="padding:20px 24px 10px 24px">
-                    <div class="section-title">Itens da Cotação</div>
-                </div>
-                
+        <div>
+            <div class="card">
+                <div class="card-title">Itens na Cotação</div>
                 <div id="listaItens">
-                    <div style="padding:40px; text-align:center; color:var(--text-muted); font-size:0.9rem">
-                        Nenhum item adicionado à lista.
-                    </div>
+                    <div class="items-empty">📦 Lista vazia</div>
                 </div>
+                <button id="btnClear" onclick="limparTudo()" style="display:none; background:none; border:none; color:var(--muted); font-size:0.75rem; cursor:pointer; margin-top:10px;">🗑 Limpar tudo</button>
             </div>
 
-            <div id="resultadoTotal" style="display:none" class="summary-card">
-                <div class="section-title" style="color:#94a3b8">Resumo da Carga</div>
-                
-                <div class="stats">
-                    <div class="stat-item">
-                        <h5>Peças</h5>
-                        <p id="totalPecas">0</p>
+            <div class="result-card" id="resultadoTotal" style="display:none">
+                <div class="card-title" style="color:var(--accent2)">Resumo da Carga</div>
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div class="stat-val" id="totalPecas">0</div>
+                        <div class="stat-lbl">Peças</div>
                     </div>
-                    <div class="stat-item">
-                        <h5>Peso Total</h5>
-                        <p><span id="totalPeso">0</span><small style="font-size:0.8rem"> kg</small></p>
+                    <div class="stat-box">
+                        <div class="stat-val" id="totalPeso">0</div>
+                        <div class="stat-lbl">Peso (kg)</div>
                     </div>
-                    <div class="stat-item">
-                        <h5>Volumes</h5>
-                        <p id="totalVolumes">0</p>
+                    <div class="stat-box">
+                        <div class="stat-val" id="totalVolumes">0</div>
+                        <div class="stat-lbl">Volumes</div>
                     </div>
                 </div>
-
-                <div class="section-title" style="color:#94a3b8; margin-top:10px">Detalhamento dos Volumes</div>
+                <div class="card-title">Detalhamento de Volumes</div>
                 <div id="detalhamentoVolumes"></div>
             </div>
-        </main>
-    </div>
+        </div>
+    </main>
 </div>
 
 <script>
-// (Mantive sua lógica de dados e cálculos que já funcionava bem, apenas ajustando a renderização)
 const dados = {
     PASSEIO: [
         { aro:"13x5,5", peso:7.5, dim:[38,38,38], porCaixa:2 },
@@ -396,9 +351,8 @@ let idCounter = 0;
 
 function setTipo(t) {
     tipoAtual = t;
-    document.querySelectorAll('.tab').forEach(el => {
-        el.classList.toggle('active', el.textContent.toUpperCase().includes(t));
-    });
+    const tabs = ['PASSEIO','4x4','PNEUS'];
+    document.querySelectorAll('.tab').forEach((el,i) => el.classList.toggle('active', tabs[i]===t));
     document.getElementById('search').value = '';
     popularItens();
 }
@@ -423,7 +377,7 @@ function atualizarInfo() {
     const sel = document.getElementById('item');
     if (!sel.options.length) return;
     const item = dados[tipoAtual][sel.value];
-    document.getElementById('itemInfo').innerHTML = `📦 Medidas: ${item.dim.join('x')} cm<br>⚖️ Peso: ${item.peso}kg/un | Emb: ${item.porCaixa} un`;
+    document.getElementById('itemInfo').innerHTML = `${item.peso}kg/un | ${item.dim.join('x')}cm | ${item.porCaixa} un/cx`;
 }
 
 function calcularVolumes(item, qtd, embalar) {
@@ -483,7 +437,7 @@ function remover(id) {
 }
 
 function limparTudo() {
-    if (!confirm('Deseja limpar toda a cotação?')) return;
+    if (!confirm('Limpar cotação?')) return;
     cotacao = []; 
     renderItens(); 
     renderResultado();
@@ -491,23 +445,23 @@ function limparTudo() {
 
 function renderItens() {
     const div = document.getElementById('listaItens');
+    document.getElementById('btnClear').style.display = cotacao.length ? 'block':'none';
+
     if (!cotacao.length) {
-        div.innerHTML = '<div style="padding:40px; text-align:center; color:var(--text-muted); font-size:0.9rem">Nenhum item na lista.</div>';
+        div.innerHTML = '<div class="items-empty">📦 Lista vazia</div>';
         return;
     }
 
     div.innerHTML = cotacao.map(c => `
-        <div class="item-row">
-            <div class="item-icon">📦</div>
-            <div class="item-details">
-                <h4>${c.aro}</h4>
-                <p>
-                    <span class="badge-pill bg-gray">${c.tipo}</span> 
-                    <span class="badge-pill ${c.embalar?'bg-blue':'bg-gray'}">${c.embalar?'Dobra':'Simples'}</span>
-                    • ${c.qtd} un. • ${(c.pesoUnit*c.qtd).toFixed(1)}kg
-                </p>
+        <div class="item-card">
+            <div class="item-left">
+                <span class="badge ${c.embalar?'badge-on':'badge-off'}">${c.embalar?'EMB. DUPLA':'SIMPLES'}</span>
+                <span class="item-aro">${c.aro}</span>
+                <div style="font-size:0.75rem; color:var(--muted); margin-top:4px;">
+                    ${c.qtd} un · ${(c.pesoUnit*c.qtd).toFixed(1)}kg · ${c.volumes.length} vol.
+                </div>
             </div>
-            <button class="btn-delete" onclick="remover(${c.id})">✕</button>
+            <button class="btn-del" onclick="remover(${c.id})">✕</button>
         </div>`).join('');
 }
 
@@ -536,9 +490,9 @@ function renderResultado() {
     document.getElementById('totalVolumes').textContent = todosVols.length;
 
     document.getElementById('detalhamentoVolumes').innerHTML = Object.values(grupos).map(g=>`
-        <div class="vol-detail">
-            <span><span class="vol-qty">${g.count}x</span> Volume(s) de ${g.comp}x${g.larg}x${g.alt} cm</span>
-            <span style="color:#94a3b8">Subtotal: ${g.peso.toFixed(1)}kg</span>
+        <div class="vol-row">
+            <div><span class="vol-count">${g.count}x</span> ${g.comp}x${g.larg}x${g.alt} cm</div>
+            <div style="font-size:0.7rem; color:var(--muted); margin-top:3px;">Peso Total do Grupo: ${g.peso.toFixed(1)}kg</div>
         </div>`).join('');
 }
 
@@ -547,3 +501,4 @@ document.addEventListener('DOMContentLoaded', popularItens);
 
 </body>
 </html>
+
